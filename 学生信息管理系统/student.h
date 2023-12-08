@@ -15,7 +15,7 @@ typedef struct student {
 	char pwd[20]; //密码
 }stu;
 typedef struct list_node {  //创建双向链表
-	stu data; //数据域
+	stu data; //数据域 存放一个学生
 	list_node *next;  //指针域 
 	list_node *front;  //指针域
 }list;

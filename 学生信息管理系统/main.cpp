@@ -12,10 +12,10 @@
 int main()
 {
 	stu Administrator = { "1234","Administrator","",0,0,"1234" };
-	list* a = InitList();
-	EndInsertList(a, Administrator);
-	list* p = InitList();
-	StuRead(p);
+	list* a = InitList(); //创建管理员链表
+	EndInsertList(a, Administrator); //添加管理员账号到链表
+	list* p = InitList();  //创建学生链表
+	StuRead(p); //读取文件中的学生信息到学生链表
 	int choice=-1;
 	while (true)
 	{
@@ -39,8 +39,6 @@ int main()
 				break;
 			}	
 	}
-
-
 	return 0;
 }
 

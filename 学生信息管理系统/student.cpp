@@ -17,10 +17,11 @@ void Stu_Menu()
 	printf("------------------------------------------------\n");
 }
 
+//管理员操作
 void Stu_Choice()
 {
-	list* L = InitList();
-	StuRead(L);
+	list* L = InitList(); //创建学生链表
+	StuRead(L); //从文件读学生信息到链表
 	int choice = -1;
 	while (1)
 	{
@@ -62,8 +63,8 @@ void Stu_Choice()
 	}
 	
 }
-
-void Stu_Input(list* L) //学生信息录入
+//学生信息录入
+void Stu_Input(list* L) 
 {
 	int sum=0;
 	stu temp;
@@ -89,10 +90,11 @@ void Stu_Input(list* L) //学生信息录入
 	}
 	StuSave(L); //保存到文件
 }
-list* Stu_Seek(list* L) //学生信息查找
+//学生信息查找
+list* Stu_Seek(list* L) 
 {
 	int sum = 0;
-	int state = 1;
+	int state = 1; //查找成功标志位
 	list* p = L;
 	list* out = NULL;
 	char s[20];
@@ -105,7 +107,7 @@ list* Stu_Seek(list* L) //学生信息查找
 		scanf_s("%s", s,sizeof(s));
 		while (p !=NULL)
 		{
-			if (strcmp(p->data.name, s) == 0)
+			if (strcmp(p->data.name, s) == 0)  //遍历链表比较名字
 			{
 				printf("学生的姓名：%s\n", p->data.name);
 				printf("学生的学号：%s\n", p->data.num);
@@ -146,11 +148,12 @@ list* Stu_Seek(list* L) //学生信息查找
 	system("cls");
 	return out; //返回该学生节点地址
 }
-void Stu_Amend(list* L) //学生信息修改
+//学生信息修改
+void Stu_Amend(list* L) 
 {
 	list *p;
 	stu temp;
-	p=Stu_Seek(L);
+	p=Stu_Seek(L);//按名字或学号找学生，找到返回节点地址
 	if (p != NULL)  //如果p还是头节点则没找到学生
 	{
 		printf("开始修改该同学的信息！\n");
@@ -164,20 +167,21 @@ void Stu_Amend(list* L) //学生信息修改
 		scanf_s("%s", &temp.major, 20);
 		printf("请输入学生的新年级：\n");
 		scanf_s("%d", &temp.grade);
-		p->data = temp;
+		p->data = temp; //将临时学生信息赋给数据域
 		printf("成功修改学生信息！[]~(￣▽￣)~*\n");
 	}
 	StuSave(L); //保存到文件
 	system("pause");
 	system("cls");
 }
-void Stu_Class(list* L) //学生信息分类
+//学生信息分类
+void Stu_Class(list* L) 
 {
 	int d;
 	list* i, * j;
 	stu temp;
 	list* f = InitList();//创建一个临时链表
-	StuRead(f);
+	StuRead(f);  //读取文件学生信息到链表
 	printf("1.按年级分类：\n");
 	printf("2.按专业分类：\n");
 	scanf_s("%d", &d);
@@ -187,7 +191,7 @@ void Stu_Class(list* L) //学生信息分类
 		{
 			for (j = i->next; j != NULL; j = j->next)
 			{
-				if (i->data.grade  > j->data.grade )
+				if (i->data.grade  > j->data.grade ) //冒泡算法比较年级大小，升序
 				{
 					temp = i->data;
 					i->data = j->data;
@@ -204,7 +208,7 @@ void Stu_Class(list* L) //学生信息分类
 		{
 			for (j = i->next; j != NULL; j = j->next)
 			{
-				if (strcmp(i->data.major, j->data.major) > 0)
+				if (strcmp(i->data.major, j->data.major) > 0)//冒泡算法比较专业字符串大小，升序
 				{
 					temp = i->data;
 					i->data = j->data;
@@ -218,8 +222,9 @@ void Stu_Class(list* L) //学生信息分类
 	while (f->next != NULL)//销毁链表
 	{
 		f = f->next;
-		free(f->front);
+		free(f->front); //遍历链表到最后一个节点，销毁每个节点的上个节点
 	}
+	free(f); //销毁最后一个节点
 }
 void Stu_Sort(list* L) //学生信息排序
 {
@@ -235,8 +240,8 @@ void Stu_Sort(list* L) //学生信息排序
 		{
 			for (j = i->next; j!=NULL; j=j->next)
 			{
-				if (strcmp(i->data.name, j->data.name) > 0)
-				{
+				if (strcmp(i->data.name, j->data.name) > 0)//冒泡算法比较名字字符串大小，升序
+				{										
 					temp = i->data;
 					i->data = j->data;
 					j->data = temp;
@@ -252,7 +257,7 @@ void Stu_Sort(list* L) //学生信息排序
 		{
 			for (j = i->next; j != NULL; j=j->next)
 			{
-				if (i->data.age > j->data.age)
+				if (i->data.age > j->data.age)//冒泡算法比较年龄大小，升序
 				{
 					temp = i->data;
 					i->data = j->data;
@@ -269,7 +274,7 @@ void Stu_Sort(list* L) //学生信息排序
 void StuDel(list* L) //学生信息删除
 {
 	int sum=0,sum1=0;
-	list* p=L->next;
+	list* p=L->next; //指针指向第二个节点
 	printf("1.清空学生信息！\n");
 	printf("2.按学号或姓名查找删除学生信息！\n");
 	scanf_s("%d", &sum);
@@ -282,25 +287,27 @@ void StuDel(list* L) //学生信息删除
 			while (p->next!=NULL)
 			{
 				p = p->next;
-				free(p->front);
+				free(p->front);//遍历链表到最后一个节点，销毁每个节点的上个节点
 			}
-			L->next = NULL;
-			StuSave(L);
+			free(p); //销毁最后一个节点
+			L->next = NULL; //将头节点指向空
+			StuSave(L); //将链表保存到文件中，清空文件
 			printf("已清空学生信息！");
 		}
 	}
 	else if (sum == 2)
 	{
-		p = Stu_Seek(L);
+		p = Stu_Seek(L);  //通过学号或姓名查找，返回节点指针
 		if (p != NULL)
 		{
 			printf("是否确认删除？1.确认\n");
 			scanf_s("%d", &sum1);
 			if (sum1 == 1)
 			{
-				p->front->next = p->next;
-				free(p);
-				StuSave(L);
+				p->front->next = p->next; //将节点的上一个节点的next指向下个节点
+				p->next->front = p->front; //将节点的下一个节点的fornt指向上一个节点
+				free(p); //释放当前节点
+				StuSave(L); //将链表保存到文件中
 				printf("已删除学生信息！\n");
 			}
 		}
@@ -311,30 +318,30 @@ void StuDel(list* L) //学生信息删除
 
 list* InitList() //初始化链表
 {
-	list * head = (list*)malloc(sizeof(list));
-	head->next = NULL;
-	return head;
+	list * head = (list*)malloc(sizeof(list)); //创建一块内存空间存放头节点
+	head->next = NULL;  //头节点指向空
+	return head; //返回头节点
 }
 void EndInsertList(list *L, student s) //尾部插入一个结点
 {
 	list* end;
 	end = L;
-	while (end->next != NULL)
+	while (end->next != NULL) //遍历到最后一个节点
 	{
 		end = end->next;
 	}
-	list* newNode = (list*)malloc(sizeof(list));
-	newNode->data = s;
-	newNode->next = NULL;
-	end->next = newNode;
-	newNode->front = end;
+	list* newNode = (list*)malloc(sizeof(list)); //开辟内存空间
+	newNode->data = s; //节点数据域赋值
+	newNode->next = NULL; //指针域指向空
+	end->next = newNode;  //将链表最后一个节点连到新节点
+	newNode->front = end; //新节点连上一个节点
 }
 
 void TraverList(list *L) //显示所有学生信息
 {
 	list* end = L->next;
 	int i = 0;
-	while (end != NULL)
+	while (end != NULL)//遍历链表打印输出
 	{
 		printf("学生%d的姓名：%s  \t", i, end->data.name);
 		printf("学生%d的学号：%s  \t", i, end->data.num);
@@ -352,15 +359,15 @@ void StuSave(list* U) //学生信息保存
 {
 	list* end = U->next;
 	FILE* fp;
-	fopen_s(&fp, "Stu_file.txt", "w");
+	fopen_s(&fp, "Stu_file.txt", "w"); //打开文件只写
 	if (fp != NULL)
 	{
-		while (end != NULL)
+		while (end != NULL) //遍历链表将链表数据域中的数据写入到文件中
 		{
 			fwrite(&end->data, sizeof(student), 1, fp);
 			end = end->next;
 		}
-		fclose(fp);
+		fclose(fp); //关闭文件
 	}
 	else
 	{
@@ -372,15 +379,15 @@ void StuRead(list* U) //学生信息读取
 	list* end = U;
 	FILE* fp;
 	student temp;
-	fopen_s(&fp, "Stu_file.txt", "r");
+	fopen_s(&fp, "Stu_file.txt", "r");//打开文件只读
 	if (fp != NULL)
 	{
 
-		while (fread(&temp, sizeof(student), 1, fp))
+		while (fread(&temp, sizeof(student), 1, fp)) //读取文件中的数据存放到临时容器中，直到文件为空
 		{
-			EndInsertList(end, temp);
+			EndInsertList(end, temp); //尾插一个新节点，将数据放进去
 		}
-		fclose(fp);
+		fclose(fp); //关闭文件
 	}
 	else
 	{

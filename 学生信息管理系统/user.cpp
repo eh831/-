@@ -24,30 +24,28 @@ list* Login(list* U)
 	printf("请输入密码:\n");
 	scanf_s("%s", pwd,20);
 	list* p = U;
-	list* L=NULL;
 	while (p != NULL)
 	{
 		if (strcmp(p->data.num, id)==0 && strcmp(p->data.pwd, pwd) == 0)//遍历链表比较账号密码
 			{
-			L = p;
-			return p;
+			return p; //返回该账号在链表的位置
 			}
 		p = p->next;
 	}		
-	return 0;
+	return NULL;
 }
 
 void SLogin(list* U) //学生登录
 {
 	list* p;
-	p = Login(U);
-	if (p!=NULL)//学生登录
+	p = Login(U); //登录
+	if (p!=NULL)
 	{
 		int choice = 0;
 		printf("登录成功！\n");
 		system("pause");
 		system("cls");
-		while (true)
+		while (true) //登录成功打印该学生信息
 		{
 			printf("欢迎%s来到学生信息管理系统q(≧▽≦q)！\n", p->data.name);
 			printf("姓名：%s  \n",  p->data.name);
@@ -59,7 +57,7 @@ void SLogin(list* U) //学生登录
 			printf("2.退出系统\n");
 			scanf_s("%d", &choice);
 			getchar();
-			if (choice == 1)
+			if (choice == 1) //修改密码或退出
 			{
 				printf("请输入新的密码：\n");
 				scanf_s("%s", p->data.pwd,sizeof(p->data.pwd));
@@ -88,7 +86,7 @@ void ALogin(list* U) //管理员登录
 	if (Login(U) != NULL)//管理员登录
 	{
 		printf("登录成功！\n");
-		Stu_Choice();  //进入二级菜单界面
+		Stu_Choice();  //进入二级菜单管理员界面
 	}
 	else
 	{
